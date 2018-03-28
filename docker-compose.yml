@@ -5,9 +5,8 @@ services:
     env_file:
       - transmission.env
     volumes:
-      - /tmp/transmission/config:/config
-      - /tmp/transmission/data:/data
-      - /tmp/transmission/downloads:/downloads
+      - /share/CACHEDEV1_DATA/Docker/transmission/config:/config
+      - /share/CACHEDEV1_DATA/Docker/transmission/data:/data
     privileged: true
     expose:
       - "9091"
@@ -16,8 +15,8 @@ services:
   jackett:
     image: "linuxserver/jackett:latest"
     volumes:
-      - /tmp/jackett/config:/config
-      - /tmp/jackett/downloads:/downloads
+      - /share/CACHEDEV1_DATA/Docker/jackett/config:/config
+      - /share/CACHEDEV1_DATA/Docker/jackett/downloads:/downloads
     expose:
       - "9117"
     ports:
@@ -25,16 +24,16 @@ services:
   sonarr:
     image: "linuxserver/sonarr:latest"
     volumes:
-      - /tmp/transmission/downloads:/downloads
-      - /tmp/sonarr/config:/config
-      - /tmp/media/tv:/tv
+      - /share/CACHEDEV1_DATA/Docker/transmission/downloads:/downloads
+      - /share/CACHEDEV1_DATA/Docker/sonarr/config:/config
+      - /share/CACHEDEV1_DATA/Multimedia/tv:/tv
     ports:
       - "8989:8989"
-  couchpotato:
-    image: "linuxserver/couchpotato:latest"
+  radarr:
+    image: "linuxserver/radarr:latest"
     volumes:
-      - /tmp/couch/config:/config
-      - /tmp/transmission/downloads:/downloads
-      - /tmp/media/movies:/movies
+      - /share/CACHEDEV1_DATA/Docker/radarr/config:/config
+      - /share/CACHEDEV1_DATA/Docker/transmission/downloads:/downloads
+      - /share/CACHEDEV1_DATA/Multimedia/movies:/movies
     ports:
-      - "10004:5050"
+      - "7878:7878"
