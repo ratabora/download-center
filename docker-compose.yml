@@ -8,32 +8,24 @@ services:
       - /share/CACHEDEV1_DATA/Docker/transmission/config:/config
       - /share/CACHEDEV1_DATA/Docker/transmission/data:/data
     privileged: true
-    expose:
-      - "9091"
-    ports:
-      - "9091:9091"
+    network_mode: "host"
   jackett:
     image: "linuxserver/jackett:latest"
     volumes:
       - /share/CACHEDEV1_DATA/Docker/jackett/config:/config
       - /share/CACHEDEV1_DATA/Docker/jackett/downloads:/downloads
-    expose:
-      - "9117"
-    ports:
-      - "9117:9117"
+    network_mode: "host"
   sonarr:
     image: "linuxserver/sonarr:latest"
     volumes:
       - /share/CACHEDEV1_DATA/Docker/transmission/downloads:/downloads
       - /share/CACHEDEV1_DATA/Docker/sonarr/config:/config
       - /share/CACHEDEV1_DATA/Multimedia/tv:/tv
-    ports:
-      - "8989:8989"
+    network_mode: "host"
   radarr:
     image: "linuxserver/radarr:latest"
     volumes:
       - /share/CACHEDEV1_DATA/Docker/radarr/config:/config
       - /share/CACHEDEV1_DATA/Docker/transmission/downloads:/downloads
       - /share/CACHEDEV1_DATA/Multimedia/movies:/movies
-    ports:
-      - "7878:7878"
+    network_mode: "host"
