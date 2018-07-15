@@ -18,7 +18,7 @@ services:
   sonarr:
     image: "linuxserver/sonarr:latest"
     volumes:
-      - /share/CACHEDEV1_DATA/Docker/transmission/downloads:/downloads
+      - /share/CACHEDEV1_DATA/Docker/transmission/data/completed:/downloads
       - /share/CACHEDEV1_DATA/Docker/sonarr/config:/config
       - /share/CACHEDEV1_DATA/Multimedia/tv:/tv
     network_mode: "host"
@@ -26,6 +26,6 @@ services:
     image: "linuxserver/radarr:latest"
     volumes:
       - /share/CACHEDEV1_DATA/Docker/radarr/config:/config
-      - /share/CACHEDEV1_DATA/Docker/transmission/downloads:/downloads
+      - /share/CACHEDEV1_DATA/Docker/transmission/data/completed/:/downloads
       - /share/CACHEDEV1_DATA/Multimedia/movies:/movies
     network_mode: "host"
