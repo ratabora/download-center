@@ -29,3 +29,10 @@ services:
       - /share/CACHEDEV1_DATA/Docker/transmission/data/completed/:/downloads
       - /share/CACHEDEV1_DATA/Multimedia/movies:/movies
     network_mode: "host"
+  lidarr:
+    image: "linuxserver/lidarr:latest"
+    volumes:
+      - /share/CACHEDEV1_DATA/Docker/lidarr/config:/config
+      - /share/CACHEDEV1_DATA/Docker/transmission/data/completed/:/downloads
+      - /share/CACHEDEV1_DATA/Multimedia/music:/music
+    network_mode: "host"
