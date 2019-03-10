@@ -5,34 +5,114 @@ services:
     env_file:
       - transmission.env
     volumes:
-      - /share/CACHEDEV1_DATA/Docker/transmission/config:/config
-      - /share/CACHEDEV1_DATA/Docker/transmission/data:/data
-    privileged: true
-    network_mode: "host"
+      - /share/Docker/transmission/config:/config
+      - /share/Docker/transmission/data:/data
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    restart: always
+    ports:
+      - "9091:9091"
+      - "8888:8888"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    labels:
+      - "traefik.enable=true"       
+      - "traefik.frontend.rule=Host:transmission.tabora.local"
+      - "traefik.backend=transmission"
+      - "traefik.port=9091"
+    networks:
+      - default
+      - discovery
   jackett:
     image: "linuxserver/jackett:latest"
+    environment:
+      - PUID=1000
+      - PGID=1000
     volumes:
-      - /share/CACHEDEV1_DATA/Docker/jackett/config:/config
-      - /share/CACHEDEV1_DATA/Docker/jackett/downloads:/downloads
-    network_mode: "host"
+      - /share/Docker/jackett/config:/config
+      - /share/Docker/jackett/downloads:/downloads
+    ports:
+      - "9117:9117"
+    dns:
+      - 192.168.1.176
+      - 8.8.8.8
+    labels:
+      - "traefik.enable=true"       
+      - "traefik.frontend.rule=Host:jackett.tabora.local"
+      - "traefik.backend=jackett"
+      - "traefik.port=9117"
+    networks:
+      - default
+      - discovery
   sonarr:
     image: "linuxserver/sonarr:latest"
+    environment:
+      - PUID=1000
+      - PGID=1000
     volumes:
-      - /share/CACHEDEV1_DATA/Docker/transmission/data/completed:/downloads
-      - /share/CACHEDEV1_DATA/Docker/sonarr/config:/config
-      - /share/CACHEDEV1_DATA/Multimedia/tv:/tv
-    network_mode: "host"
+      - /share/Docker/transmission/data/completed:/downloads
+      - /share/Docker/sonarr/config:/config
+      - /share/Multimedia/tv:/tv
+    ports:
+      - "8989:8989"
+    dns:
+      - 192.168.1.176
+      - 8.8.8.8
+    labels:
+      - "traefik.enable=true"       
+      - "traefik.frontend.rule=Host:sonarr.tabora.local"
+      - "traefik.backend=sonarr"
+      - "traefik.port=8989"
+    networks:
+      - default
+      - discovery
   radarr:
     image: "linuxserver/radarr:latest"
+    environment:
+      - PUID=1000
+      - PGID=1000
     volumes:
-      - /share/CACHEDEV1_DATA/Docker/radarr/config:/config
-      - /share/CACHEDEV1_DATA/Docker/transmission/data/completed/:/downloads
-      - /share/CACHEDEV1_DATA/Multimedia/movies:/movies
-    network_mode: "host"
+      - /share/Docker/radarr/config:/config
+      - /share/Docker/transmission/data/completed/:/downloads
+      - /share/Multimedia/movies:/movies
+    ports:
+      - "7878:7878"    
+    dns:
+      - 192.168.1.176
+      - 8.8.8.8
+    labels:
+      - "traefik.enable=true"       
+      - "traefik.frontend.rule=Host:radarr.tabora.local"
+      - "traefik.backend=radarr"
+      - "traefik.port=7878"
+    networks:
+      - default
+      - discovery
   lidarr:
     image: "linuxserver/lidarr:latest"
+    environment:
+      - PUID=1000
+      - PGID=1000
     volumes:
-      - /share/CACHEDEV1_DATA/Docker/lidarr/config:/config
-      - /share/CACHEDEV1_DATA/Docker/transmission/data/completed/:/downloads
-      - /share/CACHEDEV1_DATA/Multimedia/music:/music
-    network_mode: "host"
+      - /share/Docker/lidarr/config:/config
+      - /share/Docker/transmission/data/completed/:/downloads
+      - /share/Multimedia/music:/music
+    ports:
+      - "8686:8686"
+    dns:
+      - 192.168.1.176
+      - 8.8.8.8
+    labels:
+      - "traefik.enable=true"       
+      - "traefik.frontend.rule=Host:lidarr.tabora.local"
+      - "traefik.backend=lidarr"
+      - "traefik.port=8686"
+    networks:
+      - default
+      - discovery
+networks:
+  discovery:
+    external: true
